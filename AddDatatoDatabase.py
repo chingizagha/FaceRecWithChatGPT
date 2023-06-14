@@ -40,6 +40,16 @@ data = {
             "standing": "G",
             "year": 2,
             "last_attendance_time": "2022-12-11 00:54:34"
+        },
+    "IMG_0424":
+        {
+            "name": "Chingiz Agha",
+            "major": "Physics",
+            "starting_year": 2020,
+            "total_attendance": 7,
+            "standing": "G",
+            "year": 2,
+            "last_attendance_time": "2022-12-11 00:54:34"
         }
 }
 
