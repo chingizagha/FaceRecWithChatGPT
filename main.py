@@ -1,15 +1,16 @@
 import os
-import pickle
-import numpy as np
 import cv2
-import face_recognition
+import pickle
+import random
 import cvzone
+import numpy as np
 import firebase_admin
-from firebase_admin import credentials
+import face_recognition
+import azure.cognitiveservices.speech as speechsdk
+from datetime import datetime
 from firebase_admin import db
 from firebase_admin import storage
-import numpy as np
-from datetime import datetime
+from firebase_admin import credentials
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
@@ -19,7 +20,7 @@ firebase_admin.initialize_app(cred, {
 
 bucket = storage.bucket()
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('Videos/bb360.mp4')
 cap.set(3, 640)
 cap.set(4, 480)
 
@@ -47,6 +48,26 @@ counter = 0
 id = -1
 imgStudent = []
 
+# This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"
+speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
+audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
+
+# The language of the voice that speaks.
+speech_config.speech_synthesis_voice_name='az-AZ-BabekNeural'
+
+speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
+
+letters = ["Həyat güzgü kimidir siz gülmsəyin o da sizə gülümsəyəcəkdir.",
+           "Nəyi bacaracağınızı sizdən başqa heç kim bilə bilməz.",
+           "Əgər mümkünsüzdür deyirlərsə bu onlar üçün mümkünsüzdür sənin üçün deyil.",
+           "Əsas özünə inanmaqdır. Ətrafdakıların fikri hər gün dəyişir.",
+           "Özünə inananda arzular məqsədə çevrilir"]
+
+def speechToText(text):
+    newText = f'Xoş gəlmişsiniz, {text}'
+    speech_synthesis_result = speech_synthesizer.speak_text_async(newText).get()
+    speech_synthesis_result = speech_synthesizer.speak_text_async(random.choice(letters)).get()
+
 while True:
     success, img = cap.read()
 
@@ -56,7 +77,7 @@ while True:
     faceCurFrame = face_recognition.face_locations(imgS)
     encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
 
-    imgBackground[162:162 + 480, 55:55 + 640] = img
+    imgBackground[162:162 + 324, 55:55 + 640] = img
     imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
 
     if faceCurFrame:
@@ -136,8 +157,11 @@ while True:
                                 cv2.FONT_HERSHEY_COMPLEX, 1, (50, 50, 50), 1)
 
                     imgBackground[175:175 + 216, 909:909 + 216] = imgStudent
+                    speechToText(studentInfo['name'])
 
-                counter += 1
+                    counter += 1
+                    speechToText(studentInfo['name'])
+                    continue
 
                 if counter >= 20:
                     counter = 0
