@@ -41,7 +41,7 @@ data = {
             "year": 2,
             "last_attendance_time": "2022-12-11 00:54:34"
         },
-    "IMG_0424":
+    "111222":
         {
             "name": "Chingiz Agha",
             "major": "Physics",
