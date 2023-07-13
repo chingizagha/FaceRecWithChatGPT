@@ -46,7 +46,7 @@ letters = ["Həyat güzgü kimidir siz gülmsəyin o da sizə gülümsəyəcəkd
            "Özünə inananda arzular məqsədə çevrilir"]
 
 def speechToText(text):
-    newText = f'Xoş gəlmişsiniz, {text}'
+    newText = f'Xoş gəlmişsiniz, Bugünün motivasiya sözü ilə tanış olun {text}'
     speech_synthesis_result = speech_synthesizer.speak_text_async(newText).get()
     speech_synthesis_result = speech_synthesizer.speak_text_async(random.choice(letters)).get()
 
@@ -59,7 +59,7 @@ firebase_admin.initialize_app(cred, {
 })
 bucket = storage.bucket()
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('Videos/bb360.mp4')
 cap.set(3, 640)
 cap.set(4, 480)
 
@@ -96,7 +96,7 @@ while True:
     faceCurFrame = face_recognition.face_locations(imgS)
     encodeCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
 
-    imgBackground[162:162 + 480, 55:55 + 640] = img
+    imgBackground[162:162 + 324, 55:55 + 640] = img
     imgBackground[44:44 + 633, 808:808 + 414] = imgModeList[modeType]
 
     if faceCurFrame:
