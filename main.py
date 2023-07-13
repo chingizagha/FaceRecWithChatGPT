@@ -20,16 +20,6 @@ from firebase_admin import db
 from firebase_admin import storage
 from firebase_admin import credentials
 
-# ctypes.windll.kernel32.SetDllDirectoryW(None)
-
-# os.chdir('C:\\Users\\Rabalon\\AppData\\Roaming\\Python\\Python311\\site-packages\\azure\\cognitiveservices\\speech\\')
-# ctypes.CDLL('Microsoft.CognitiveServices.Speech.core.dll')
-
-# setup(windows=['main.py'],
-#       package_dir= {"": "Images", "": "Videos", "": "Resources"},
-#       options={'py2exe': {'bundle_files': 1, 'includes': 'numpy'}})
-
-
 # This example requires environment variables named "SPEECH_KEY" and "SPEECH_REGION"
 speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
 audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
